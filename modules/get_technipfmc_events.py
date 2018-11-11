@@ -18,16 +18,23 @@ def get_technipfmc_calendar():
     list_comp_sym = list(zip_comp_sym)
     dict_comp_sym = dict(list_comp_sym)
 
+
     Events_onTheGS = read_sheets.read_GS('1zblGlPcVVZQJIOWHaGlsSpVU9gp3t1rXRDDqZaED1QI', 'Calendar!A2:D50', 'COLUMNS')
 
     #Create a new list containing the events already on the worksheet so we can remove duplicates
-    Companies = Events_onTheGS['values'][0]
-    Symbol = Events_onTheGS['values'][1]
-    Event_Desc = Events_onTheGS['values'][2]
-    Event_Date = Events_onTheGS['values'][3]
-    zip_events = zip(Companies, Symbol, Event_Desc, Event_Date)
-    list_events = list(zip_events)
-    print(list_events)
+    try:
+
+        Companies = Events_onTheGS['values'][0]
+        Symbol = Events_onTheGS['values'][1]
+        Event_Desc = Events_onTheGS['values'][2]
+        Event_Date = Events_onTheGS['values'][3]
+        zip_events = zip(Companies, Symbol, Event_Desc, Event_Date)
+        #list_events variabe contains the events already on the GS
+        list_events = list(zip_events)
+        for events in list_events:
+            events=list(events)
+    except(KeyError):
+        list_events=[]
 
     raw_html_technipfmc = get_url.simple_get('http://investors.technipfmc.com/phoenix.zhtml?c=254471&p=irol-calendar')
 
@@ -46,11 +53,9 @@ def get_technipfmc_calendar():
         for companies, symbol in dict_comp_sym.items():
             if companies == 'Technipfmc':
                 technipfmc_earnings = ['Technipfmc', symbol, earning_title.text, earning_date]
-                #This loop will prevent duplicate
-                if technipfmc_earnings not in list_events:
 
-                    #We want to retrieve h5 the title and p the description with the date
-                    earnings.append(technipfmc_earnings)
+                #We want to retrieve h5 the title and p the description with the date
+                earnings.append(technipfmc_earnings)
 
 
     except(AttributeError):

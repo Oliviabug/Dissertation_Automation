@@ -21,6 +21,7 @@ def get_kws_calendar():
     list_comp_sym = list(zip_comp_sym)
     dict_comp_sym = dict(list_comp_sym)
 
+
     raw_html_kws = get_url.simple_get('https://www.kws.com/corp/en/company/investor-relations/financial-calendar/')
 
     html = soup(raw_html_kws, 'html.parser')
@@ -46,6 +47,7 @@ def get_kws_calendar():
                                 kws_earnings = ['Kws', symbol, h2.text, h3]
                                 #We append Kws earnings's events to the earnings variable
                                 earnings.append(kws_earnings)
+
 
                 except ValueError:
                     h3 = h3.text

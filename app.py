@@ -15,5 +15,5 @@ get_puma_events.get_puma_calendar()
 #it adds the names of the journalists who cover the companies on the 'Calendar' worksheet
 add_journalists_calendar.add_journalists()
 
-#This final function appends all the information we fetched on our Google Sheet. 
-append_GS.GS_Append(add_profit_calendar.add_profit(), '1zblGlPcVVZQJIOWHaGlsSpVU9gp3t1rXRDDqZaED1QI', 'Calendar!A2:H200')
+#This final function appends all the information we fetched on our Google Sheet.
+Update_GS.GS_Update(add_profit_calendar.add_profit(), '1zblGlPcVVZQJIOWHaGlsSpVU9gp3t1rXRDDqZaED1QI', 'Calendar!A2:H200')

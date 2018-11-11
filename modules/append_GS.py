@@ -23,7 +23,7 @@ def GS_Append(value, spreadsheet_id, range_name):
 
     body = {'values': values}
 
-    request_other = service.spreadsheets().values().update(spreadsheetId=spreadsheet_id, range=range_name,
+    request_other = service.spreadsheets().values().append(spreadsheetId=spreadsheet_id, range=range_name,
                                                      valueInputOption= value_input_option,
                                                      body = body)
 
