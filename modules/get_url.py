@@ -2,6 +2,8 @@ from requests import get
 import requests
 from contextlib import closing
 
+
+#get URL to parse & handle potential errors 
 def simple_get(url):
     try:
         with closing(get(url, stream=True)) as resp:

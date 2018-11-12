@@ -1,12 +1,15 @@
 from modules import add_journalists_calendar
+
+#Libraries necessary to extract data from Excel files
 import xlrd
 import collections
 
 
-#add the last quarter profit of the company to allow quick comparison when we report results for example.
+#this function adds the last-quarter profit of companies on the Calendar worksheet
 def add_profit():
 
-    earnings= add_journalists_calendar.add_journalists()
+    #Fetch the earnings variable from previous function/modules so we have all the events into it
+    earnings = add_journalists_calendar.add_journalists()
 
     #The data are fetched from an Excel file
     loc = ("Quarter_profit.xlsx")
@@ -25,9 +28,10 @@ def add_profit():
         else:
             Comp_net_profit = sheet.cell_value(i, 1)
 
+        #From the Excel file, we fetched the Sym as dict keys and the profit as dict values
         Quarter_profit[Comp_symbol].append(Comp_net_profit)
 
-    #As for the journalists name, the data are added into the already existing list of lists variable named earnings
+    #As for the journalists' name, the data are added into the already existing list of lists variable named earnings
     for lists in earnings:
         for ele in lists:
             for symbol, profit in Quarter_profit.items():
@@ -36,5 +40,3 @@ def add_profit():
 
 
     return earnings
-
-print(add_profit())

@@ -8,10 +8,11 @@ from modules import google_auth
 
 discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
                'version=v4')
+
 http = google_auth.get_credentials().authorize(httplib2.Http())
 service = discovery.build('sheets', 'v4', credentials=google_auth.get_credentials())
 
-#add the list to Google Sheet
+#Add our data (value) to Google Sheet (spreadsheet_id)
 def GS_Append(value, spreadsheet_id, range_name):
 
     #How the data should be interpreted

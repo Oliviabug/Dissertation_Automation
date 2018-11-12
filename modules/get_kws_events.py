@@ -6,15 +6,15 @@ from bs4 import BeautifulSoup as soup
 import pandas as pd
 import datetime
 
-#Scrape Associated British Foods financial calendar page
+# Scrape Kws' financial calendar page to fetch financial events
 def get_kws_calendar():
 
-    #The earnings variable already contain the TechnipFMC events that's why we called the get_technipfmc function--which returns the earnings variable
+    # The earnings variable already contains the TechnipFMC events that's why we called the get_technipfmc_calendar function--which returns the earnings variable
     earnings = get_technipfmc_events.get_technipfmc_calendar()
 
     Comp_covered = read_sheets.read_GS('1zblGlPcVVZQJIOWHaGlsSpVU9gp3t1rXRDDqZaED1QI', 'Companies covered!A2:D50', 'COLUMNS')
 
-    #Create a new dict with companies name as key and companies symbol as value
+    # Create a new dict with companies' name as keys and companies' symbol as values
     Companies = Comp_covered['values'][0]
     Symbol = Comp_covered['values'][1]
     zip_comp_sym = zip(Companies, Symbol)
@@ -28,14 +28,15 @@ def get_kws_calendar():
 
     list_container = html.find('div', attrs={'class': 'page'})
 
+    # This first try/except catches the error in case there are no events on the company's calendar webpage
     try:
 
         for row in list_container.findAll('div', attrs={'class', 'block-content' }):
             for h3 in row.findAll('h4', attrs={'class', 'teaser-card__title h3'}):
 
-                #I want the date format to be the same for each company so I can 'play' with the dates
-                #Each company has its own date format. But some companies make it more difficult with a format date which change
-                #Try/Except handle the normal date format of Kwsand turn it into a different one. If the script run into a different one, it will just jump to the next one.
+                # We want the date format to be the same for each company so to sort events by date
+                # Each company has its own date format. But some companies make it more difficult with some differences from one date to another
+                # This try/except turn the 'usual date format' of Kws into a different one that we apply to all events. Except handles the unconventional situation
                 try:
 
                     h3 = datetime.datetime.strptime(h3.text, '%B %d, %Y').strftime('%d-%b-%Y')
@@ -45,7 +46,7 @@ def get_kws_calendar():
                             if companies == 'Kws':
 
                                 kws_earnings = ['Kws', symbol, h2.text, h3]
-                                #We append Kws earnings's events to the earnings variable
+                                # We append Kws earnings's events to the earnings variable
                                 earnings.append(kws_earnings)
 
 
@@ -57,12 +58,11 @@ def get_kws_calendar():
                             if companies == 'Kws':
 
                                 kws_earnings = ['Kws', symbol, h2.text, h3]
-                                #We append Kws earnings's events to the earnings variable
+
+                                #We append Kws earnings's events to the global earnings variable
                                 earnings.append(kws_earnings)
 
     except:
         earnings = []
 
     return earnings
-
-get_kws_calendar()

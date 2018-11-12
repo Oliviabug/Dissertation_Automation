@@ -3,7 +3,6 @@ from googleapiclient import errors
 import oauth2client
 from oauth2client import client
 from oauth2client import tools
-from oauth2client import file
 
 import os
 
@@ -21,8 +20,10 @@ flags = tools.argparser.parse_args([])
 discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
                'version=v4')
 
-#Get the credential to access and modify Google sheets
+# Get the credential to access and modify Google sheets
 def get_credentials():
+
+    # You will have to change the home_dir variable when you will run the script as it's my own local directory here
     home_dir = os.path.expanduser('~oliviabugault')
     credentials_dir = os.path.join(home_dir, '.credentials')
 
@@ -41,4 +42,6 @@ def get_credentials():
         else:
             credentials = tools.run(flow, store)
         print('Storing credentials to ' + credentials_path)
+
+    #The credentials authorize me to access and use the Google Sheet API (as well as other Google APIs potentially)
     return credentials

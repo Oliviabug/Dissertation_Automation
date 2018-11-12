@@ -5,9 +5,10 @@ from modules import get_kws_events
 from bs4 import BeautifulSoup as soup
 import pandas as pd
 
-#Get the events from Puma and append them into the earnings variable
+# Scrape Puma's financial calendar webpage to fetch financial events
 def get_puma_calendar():
 
+    # The earnings variable already contains the TechnipFMC and Kws events that's why we called the get_kws_calendar function--which returns the earnings variable
     earnings = get_kws_events.get_kws_calendar()
 
     Comp_covered = read_sheets.read_GS('1zblGlPcVVZQJIOWHaGlsSpVU9gp3t1rXRDDqZaED1QI', 'Companies covered!A2:D50', 'COLUMNS')
@@ -19,7 +20,8 @@ def get_puma_calendar():
     list_comp_sym = list(zip_comp_sym)
     dict_comp_sym = dict(list_comp_sym)
 
-    #This piece of script was supposed to remove the duplicates and only append the new events but I couldn't make it work well
+    #This following piece of script was supposed to remove the duplicates and only append the new events but I couldn't make it completely functional
+
     # Events_onTheGS = read_sheets.read_GS('1zblGlPcVVZQJIOWHaGlsSpVU9gp3t1rXRDDqZaED1QI', 'Calendar!A2:D50', 'COLUMNS')
     #
     # try:
@@ -43,6 +45,7 @@ def get_puma_calendar():
 
     list_container = html.find('div',attrs={"class":"article-list-container"})
 
+    # This try/except catches the error in case there are no events on the company's calendar webpage
     try:
 
         for row in list_container.findAll('div', attrs={'class', 'text'}) :
@@ -52,7 +55,7 @@ def get_puma_calendar():
                         if companies == 'Puma':
                             Puma_earnings = ['Puma', symbol, h3.text, p.text]
 
-                            #We append Kws earnings's events to the earnings variable
+                            #We append Puma earnings's events to the earnings variable
                             earnings.append(Puma_earnings)
 
 
