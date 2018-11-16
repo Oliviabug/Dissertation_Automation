@@ -61,7 +61,7 @@ def get_puma_calendar():
 
 
 
-    except:
+    except(AttributeError):
         earnings = []
 
     return earnings

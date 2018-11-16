@@ -62,7 +62,7 @@ def get_kws_calendar():
                                 #We append Kws earnings's events to the global earnings variable
                                 earnings.append(kws_earnings)
 
-    except:
+    except(AttributeError):
         earnings = []
 
     return earnings
